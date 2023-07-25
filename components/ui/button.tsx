@@ -9,7 +9,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, children, disabled, type = "button", ...props }, ref) => {
     return (
       <button
-        type={type}
+        // type={type}
         className={cn(
           `
         w-auto 
@@ -26,10 +26,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         hover:opacity-75
         transition
       `,
-          disabled && "opacity-75 cursor-not-allowed",
+          // disabled && "opacity-75 cursor-not-allowed",
           className
         )}
-        disabled={disabled}
+        // disabled={disabled}
         ref={ref}
         {...props}
       >
