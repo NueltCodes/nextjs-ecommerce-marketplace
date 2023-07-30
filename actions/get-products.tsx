@@ -11,18 +11,38 @@ interface Query {
 }
 
 const getProducts = async (query: Query): Promise<Product[]> => {
+  // Filter out undefined query parameters
+  const filteredQuery: qs.StringifiableRecord = {};
+  if (query.colorId) filteredQuery.colorId = query.colorId;
+  if (query.sizeId) filteredQuery.sizeId = query.sizeId;
+  if (query.categoryId) filteredQuery.categoryId = query.categoryId;
+  if (query.isFeatured !== undefined) {
+    // Convert boolean to string cause the query expects all to be string so as to avoid errors
+    filteredQuery.isFeatured = query.isFeatured.toString();
+  }
+
   const url = qs.stringifyUrl({
     url: URL,
-    query: {
-      colorId: query.colorId,
-      sizeId: query.sizeId,
-      categoryId: query.categoryId,
-      isFeatured: query.isFeatured,
-    },
+    query: filteredQuery,
   });
-  const res = await fetch(url);
 
-  return res.json();
+  try {
+    // Append a timestamp to the URL to avoid caching
+    const timestamp = Date.now();
+    const res = await fetch(`${url}&timestamp=${timestamp}`);
+
+    // Check if the response is successful (status code within the range of 200-299)
+    if (!res.ok) {
+      // If the response is not successful, throw an error
+      throw new Error("Failed to fetch product data");
+    }
+
+    return res.json();
+  } catch (error) {
+    // Handle network errors or errors during JSON parsing
+    console.error("Error fetching products:", error);
+    throw error;
+  }
 };
 
 export default getProducts;

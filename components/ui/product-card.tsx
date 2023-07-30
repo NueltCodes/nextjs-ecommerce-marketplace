@@ -19,9 +19,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   const previewModal = usePreviewModal();
   const cart = useCart();
 
-  const handleClick = () => {
-    router.push(`/product/${data?.id}`);
-  };
+  // const handleClick = () => {
+  //   router.push(`/product/${data?.id}`);
+  // };
 
   const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
@@ -37,7 +37,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
 
   return (
     <div
-      onClick={handleClick}
+      onClick={() => router.push(`/product/${data.id}`)}
       className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4"
     >
       {/* Image & actions */}
@@ -45,8 +45,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
         <Image
           src={data.images?.[0]?.url}
           alt=""
-          fill
-          className="aspect-square object-cover rounded-md"
+          layout="responsive"
+          width={400}
+          height={400}
+          className="card-image aspect-square object-cover rounded-md"
         />
         <div className="opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5">
           <div className="flex gap-x-6 justify-center">

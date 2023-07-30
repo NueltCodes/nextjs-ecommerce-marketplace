@@ -1,17 +1,17 @@
 "use client";
 
 import { Tab } from "@headlessui/react";
-
 import { Image as ImageType } from "@/types";
 
-import GalleryTab from "./gallery-tab";
 import Image from "next/image";
+import GalleryTab from "./gallery-tab";
 
 interface GalleryProps {
   images: ImageType[];
 }
 
-const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
+const Gallery: React.FC<GalleryProps> = ({ images }) => {
+  // console.log(images);
   return (
     <Tab.Group as="div" className="flex flex-col-reverse">
       <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">

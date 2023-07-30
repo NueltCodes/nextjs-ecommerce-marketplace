@@ -1,7 +1,7 @@
 export interface Billboard {
   id: string;
   label: string;
-  imageUrl: string;
+  imageUrl: [];
 }
 
 export interface Category {
@@ -22,6 +22,10 @@ export interface Product {
 }
 
 export interface Image {
+  id: string;
+  url: string;
+}
+export interface BillboardImage {
   id: string;
   url: string;
 }
