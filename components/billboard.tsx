@@ -1,12 +1,10 @@
 "use client";
 import { BillboardImage, Billboard as BillboardTypes } from "@/types";
-import { data } from "autoprefixer";
-import image from "next/image";
-import Image from "next/image";
+
 import { useEffect, useState } from "react";
 interface BillboardProps {
   data: BillboardTypes;
-  billBoardImage: BillboardImage[]; // Change this to string
+  billBoardImage: BillboardImage[]; // Changed this to string
 }
 
 const Billboard: React.FC<BillboardProps> = ({ data, billBoardImage }) => {
@@ -21,11 +19,10 @@ const Billboard: React.FC<BillboardProps> = ({ data, billBoardImage }) => {
 
   const currentImage = billBoardImage[imageIndex]?.url || "";
 
-  console.log(data);
   return (
-    <div className="p-4 sm:p-6 lg:p-8  overflow-hidden">
+    <div className="p-4 sm:p-6 lg:p-8 overflow-hidden">
       <div
-        className="-m-8 relative aspect-square md:aspect-[2.4/1] overflow-hidden bg-cover transition-all duration-1000 ease-in-out "
+        className="-mx-10 relative aspect-square md:aspect-[2.4/1] overflow-hidden bg-cover transition-all duration-1000 ease-in-out "
         style={{
           backgroundImage: `url(${currentImage})`,
           backgroundSize: "cover",
@@ -35,7 +32,18 @@ const Billboard: React.FC<BillboardProps> = ({ data, billBoardImage }) => {
         }}
       >
         <div className="h-full w-full flex flex-col justify-end items-center text-center gap-y-8">
-          <div className="font-bold bg-white rounded p-2 text-lg sm:text-5xl lg:text-2xl sm:max-w-xl max-w-xs">
+          <div
+            className="font-bold  rounded p-2 text-lg sm:text-5xl lg:text-5xl text-white sm:max-w-xl max-w-xs
+          "
+            style={{
+              // Add inline style to create the glassmorphism effect
+              background: "rgba(255, 255, 255, 0.2)", // Very transparent white background
+              backdropFilter: "blur(10px)", // Add a blur effect to the background
+              borderRadius: "8px", // Optional: Add some border-radius to soften the edges
+              padding: "1rem", // Optional: Add padding to the content
+              boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)", // Optional: Add a shadow effect
+            }}
+          >
             {data?.label}
           </div>
         </div>

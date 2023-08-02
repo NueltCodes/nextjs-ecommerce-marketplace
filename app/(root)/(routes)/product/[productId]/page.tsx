@@ -1,9 +1,11 @@
 import getProduct from "@/actions/get-product";
 import getProducts from "@/actions/get-products";
+import CreateReviewForm from "@/components/createReviews";
 import Gallery from "@/components/gallery";
 import Info from "@/components/info";
 import ProductList from "@/components/product-list";
 import Container from "@/components/ui/container";
+import { auth } from "@clerk/nextjs";
 import React from "react";
 
 interface ProductPageProps {
@@ -17,7 +19,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
   const suggestedProducts = await getProducts({
     categoryId: product?.category?.id,
   });
-  // console.log(product);
+
   return (
     <div className="bg-white">
       <Container>

@@ -79,7 +79,7 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
   };
 
   return (
-    <nav className="mx-6 flex items-center space-x-4 lg:space-x-6 w-full">
+    <nav className="ml-6 flex gap-x-2 items-center space-x-4 lg:space-x-6 w-full">
       {/* <span
         onClick={() => setOpen(!open)}
         className="cursor-pointer flex items-center  text-sm font-medium transition-colors text-neutral-500 hover:text-black"
@@ -107,7 +107,7 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
 
       <Combobox value={selected} onChange={setSelected}>
         <div className="relative mt-1">
-          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 z-40 focus-visible:ring-offset-teal-300 sm:text-sm">
+          <div className="relative w-8 md:w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus:border-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 z-40 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
               displayValue={(route: any) => route.name}
@@ -127,7 +127,7 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-40">
+            <Combobox.Options className="absolute mt-1 max-h-60 w-[150px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-40">
               {filteredCategory.length === 0 && query !== "" ? (
                 <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                   Nothing found.
@@ -171,7 +171,7 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
           </Transition>
         </div>
       </Combobox>
-      <div className="w-[60%] relative flex items-center gap-2">
+      <div className="w-[100%] relative flex items-center gap-2">
         <div className="w-[100%]">
           <input
             type="text"
@@ -181,7 +181,7 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
             onBlur={handleInputBlur}
             ref={searchInputRef}
             placeholder="Search products, brand and categories"
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-10 w-full rounded-md border-zinc-400 border-2 focus:border-none bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm  file:font-medium placeholder:text-muted-foreground focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           />
 
           {!searchTerm.length && (

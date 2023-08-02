@@ -38,7 +38,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   return (
     <div
       onClick={() => router.push(`/product/${data.id}`)}
-      className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4"
+      className="bg-white group cursor-pointer rounded-xl border p-3 space-y-1.5"
     >
       {/* Image & actions */}
       <div className=" rounded-xl bg-gray-100 relative">
@@ -65,8 +65,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
       </div>
       {/* Description */}
       <div>
-        <p className="font-semibold text-lg">{data.name}</p>
-        <p className="text-sm text-gray-500">{data.category?.name}</p>
+        <p className="font-semibold text-lg whitespace-nowrap text-ellipsis overflow-hidden">
+          {data.name}
+        </p>
+        <div className="flex items-center gap-x-3">
+          <p className="text-lg text-gray-500 font-medium">
+            {data.category?.name}
+          </p>
+          <p className="text-[16px] text-green-600">
+            {" "}
+            <span>Stocks </span>({data?.units})
+          </p>
+        </div>
       </div>
       {/* Price & Reiew */}
       <div className="flex items-center justify-between">

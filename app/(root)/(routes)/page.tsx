@@ -1,5 +1,4 @@
 import getBillboard from "@/actions/get-billboard";
-import getNewProducts from "@/actions/get-newProducts";
 import getProducts from "@/actions/get-products";
 import Billboard from "@/components/billboard";
 import ProductList from "@/components/product-list";
@@ -8,13 +7,9 @@ import React from "react";
 
 export const revalidate = 0;
 const HomePage = async () => {
-  const billboard = await getBillboard("cec43b03-2893-4fdb-a050-933c32bdbbfd");
+  const billboard = await getBillboard("3cb01583-32d1-49e8-9b08-4deb7f3f667c");
   const products = await getProducts({ isFeatured: true });
-  // const newProducts = await getNewProducts({
-  //   isFeatured: true,
-  // });
 
-  // console.log(products);
   return (
     <Container>
       <div className="w-full pb-10 mx-auto">

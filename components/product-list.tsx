@@ -8,8 +8,6 @@ interface ProductListProps {
 }
 
 const ProductList: React.FC<ProductListProps> = ({ title, items }) => {
-  // const
-
   const isShowAll = title === "New Products";
   return (
     <div className="space-y-4">

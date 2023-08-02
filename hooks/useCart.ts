@@ -7,7 +7,7 @@ import { AlertTriangle } from "lucide-react";
 
 interface CartStore {
   items: Product[];
-  addItem: (data: Product) => void;
+  addItem: (data: Product, quantity: number) => void; // Add 'quantity' argument
   removeItem: (id: string) => void;
   removeAll: () => void;
 }
@@ -16,15 +16,18 @@ const useCart = create(
   persist<CartStore>(
     (set, get) => ({
       items: [],
-      addItem: (data: Product) => {
+      addItem: (data: Product, quantity: number) => {
         const currentItems = get().items;
         const existingItem = currentItems.find((item) => item.id === data.id);
 
         if (existingItem) {
           return toast("Item already in cart.");
         }
+        if (data.units < 1) {
+          return toast("Item stock limited.");
+        }
 
-        set({ items: [...get().items, data] });
+        set({ items: [...get().items, { ...data, quantity }] }); // Add item with quantity
         toast.success("Item added to cart.");
       },
       removeItem: (id: string) => {
