@@ -1,5 +1,5 @@
 "use client";
-import React, { MouseEventHandler } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import { Product } from "@/types";
 import IconButton from "@/components/ui/icon-button";
 import Currency from "@/components/ui/currency";
@@ -18,6 +18,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   const router = useRouter();
   const previewModal = usePreviewModal();
   const cart = useCart();
+  const [quantity, setQuantity] = useState(1);
 
   // const handleClick = () => {
   //   router.push(`/product/${data?.id}`);
@@ -32,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
 
-    cart.addItem(data);
+    cart.addItem(data, quantity);
   };
 
   return (

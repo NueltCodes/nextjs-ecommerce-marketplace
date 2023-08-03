@@ -21,7 +21,7 @@ const CartItem: React.FC<CartItemProps> = ({ data }) => {
   };
 
   return (
-    <li className="flex py-6 border-b">
+    <li className="flex gap-x-1 py-6 border-b">
       <div className="relative h-24 w-24 rounded-md overflow-hidden sm:h-48 sm:w-48">
         <Image
           fill
@@ -39,13 +39,17 @@ const CartItem: React.FC<CartItemProps> = ({ data }) => {
             <p className=" text-lg font-semibold text-black">{data.name}</p>
           </div>
 
-          <div className="mt-1 flex text-sm">
-            <p className="text-gray-500">{data.color.name}</p>
-            <p className="ml-4 text-gray-500 border-l border-gray-200 pl-4">
+          <div className="mt-1 py-1 sm:py-0 flex items-center text-sm">
+            <p className="text-gray-500 font-semibold">
+              <span className="text-gray-800 font-bold">Color:</span>{" "}
+              {data.color.name}
+            </p>
+            <p className="ml-4 text-gray-500 border-l-2 border-gray-200 pl-4 font-semibold">
+              <span className="text-gray-800 font-bold">Size: </span>
               {data.size.name}
             </p>
           </div>
-          <Currency value={data.price} />
+          <Currency data={data} value={data.price} />
         </div>
       </div>
     </li>

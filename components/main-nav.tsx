@@ -172,7 +172,34 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
         </div>
       </Combobox>
       <div className="w-[100%] relative flex items-center gap-2">
-        <div className="w-[100%]">
+        <div className="w-[100%] blockk 570px:hidden">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            ref={searchInputRef}
+            placeholder="Search products"
+            className="flex h-10 w-full rounded-md border-zinc-400 border-2 focus:border-none bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm  file:font-medium placeholder:text-muted-foreground focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          />
+
+          {!searchTerm.length && (
+            <Search
+              size={15}
+              className="absolute right-3 top-3 cursor-pointer"
+            />
+          )}
+
+          {searchTerm.length > 0 && (
+            <X
+              size={15}
+              className="absolute right-3 top-3 cursor-pointer"
+              onClick={() => setSearchTerm("")}
+            />
+          )}
+        </div>
+        <div className="w-[100%] hidden 570px:block">
           <input
             type="text"
             value={searchTerm}

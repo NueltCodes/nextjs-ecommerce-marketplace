@@ -9,6 +9,10 @@ import Button from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/useCart";
 
+interface Quantity {
+  [productId: string]: number;
+}
+
 const Summary = () => {
   const searchParams = useSearchParams();
   const items = useCart((state) => state.items);
@@ -30,10 +34,19 @@ const Summary = () => {
   }, 0);
 
   const onCheckout = async () => {
+    const qty: Quantity = {}; // Create an empty object to store the quantities
+
+    items.forEach((item) => {
+      qty[item.id] = item.quantity; // Assign the quantity to the corresponding product ID
+    });
+
+    console.log("Quantity Object:", qty); // Log the qty object to the console to check if it's correct
+
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
       {
         productIds: items.map((item) => item.id),
+        qty: qty, // Pass the quantity object to the API
       }
     );
 
