@@ -19,7 +19,6 @@ interface MainNavProps {
 
 const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState<Product[]>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -38,17 +37,12 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
     query === ""
       ? data
       : data.filter((route) =>
-          route.name
+          route?.name
             .toLowerCase()
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
-
-  const handleInputBlur = () => {
-    // Close the search results when the input is blurred (clicked outside)
-    setSearchData([]);
-  };
-
+  console.log(filteredCategory);
   const handleInputFocus = () => {
     // Display the search results when the input is focused
     if (searchTerm.length > 0) {
@@ -80,31 +74,6 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
 
   return (
     <nav className="ml-6 flex gap-x-2 items-center space-x-4 lg:space-x-6 w-full">
-      {/* <span
-        onClick={() => setOpen(!open)}
-        className="cursor-pointer flex items-center  text-sm font-medium transition-colors text-neutral-500 hover:text-black"
-      >
-        Categries <Plus size={18} />
-      </span> */}
-
-      {/* {open && (
-        <ul className="space-y-2">
-          {routes.map((route) => (
-            <li key={route.href}>
-              <Link
-                href={route.href}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-black",
-                  route.active ? "text-black" : "text-neutral-500"
-                )}
-              >
-                {route.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )} */}
-
       <Combobox value={selected} onChange={setSelected}>
         <div className="relative mt-1">
           <div className="relative w-8 md:w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus:border-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 z-40 focus-visible:ring-offset-teal-300 sm:text-sm">
@@ -128,7 +97,7 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
             afterLeave={() => setQuery("")}
           >
             <Combobox.Options className="absolute mt-1 max-h-60 w-[150px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-40">
-              {filteredCategory.length === 0 && query !== "" ? (
+              {filteredCategory?.length === 0 && query !== "" ? (
                 <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                   Nothing found.
                 </div>
@@ -172,13 +141,12 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
         </div>
       </Combobox>
       <div className="w-[100%] relative flex items-center gap-2">
-        <div className="w-[100%] blockk 570px:hidden">
+        <div className="w-[100%] block 570px:hidden">
           <input
             type="text"
             value={searchTerm}
             onChange={handleSearchChange}
             onFocus={handleInputFocus}
-            onBlur={handleInputBlur}
             ref={searchInputRef}
             placeholder="Search products"
             className="flex h-10 w-full rounded-md border-zinc-400 border-2 focus:border-none bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm  file:font-medium placeholder:text-muted-foreground focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -195,7 +163,10 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
             <X
               size={15}
               className="absolute right-3 top-3 cursor-pointer"
-              onClick={() => setSearchTerm("")}
+              onClick={() => {
+                setSearchTerm(""); // Clear the search term
+                setSearchData([]); // Clear the search results
+              }}
             />
           )}
         </div>
@@ -205,7 +176,6 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
             value={searchTerm}
             onChange={handleSearchChange}
             onFocus={handleInputFocus}
-            onBlur={handleInputBlur}
             ref={searchInputRef}
             placeholder="Search products, brand and categories"
             className="flex h-10 w-full rounded-md border-zinc-400 border-2 focus:border-none bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm  file:font-medium placeholder:text-muted-foreground focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -222,20 +192,24 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
             <X
               size={15}
               className="absolute right-3 top-3 cursor-pointer"
-              onClick={() => setSearchTerm("")}
+              onClick={() => {
+                setSearchTerm(""); // Clear the search term
+                setSearchData([]); // Clear the search results
+              }}
             />
           )}
         </div>
 
         {/* Display search results */}
         {searchData.length !== 0 && (
-          <div className="absolute top-12 mt-2 bg-slate-50 shadow-sm z-[9] w-[100%]">
+          <div className="absolute top-12 mt-2 bg-slate-50 shadow-sm z-[9] overflow-y-scroll w-[100%]">
             {searchData.map((product) => (
               <Link href={`/product/${product.id}`} key={product.id}>
                 <div
                   className="flex items-center space-x-2 cursor-pointer mb-2 px-4 hover:bg-slate-200"
                   onClick={() => {
-                    setSearchData([]); // Clear search results when a product is clicked
+                    setSearchTerm(""); // Clear the search term
+                    setSearchData([]); // Clear the search results
                   }}
                 >
                   <Image

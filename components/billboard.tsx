@@ -20,7 +20,7 @@ const Billboard: React.FC<BillboardProps> = ({ data, billBoardImage }) => {
   const currentImage = billBoardImage[imageIndex]?.url || "";
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 overflow-hidden">
+    <div className="p-4 sm:p-6 lg:p-8">
       <div
         className="-mx-10 relative aspect-square md:aspect-[2.4/1] overflow-hidden bg-cover transition-all duration-1000 ease-in-out "
         style={{

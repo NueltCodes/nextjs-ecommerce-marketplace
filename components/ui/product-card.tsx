@@ -42,14 +42,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
       className="bg-white group cursor-pointer rounded-xl border p-3 space-y-1.5"
     >
       {/* Image & actions */}
-      <div className=" rounded-xl bg-gray-100 relative">
+      <div className="rounded-xl aspect-square bg-gray-100 relative">
         <Image
           src={data.images?.[0]?.url}
           alt=""
           layout="responsive"
           width={200}
           height={200}
-          className="card-image  object-cover rounded-md"
+          className="card-image aspect-square object-cover rounded-md"
         />
         <div className="opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5">
           <div className="flex gap-x-6 justify-center">

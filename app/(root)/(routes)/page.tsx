@@ -14,12 +14,12 @@ const HomePage = async () => {
     <Container>
       <div className="w-full pb-10 mx-auto">
         <Billboard data={billboard} billBoardImage={billboard.imageUrl} />
-        <div className="flex mt-10 flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
-          <ProductList title="Featured Products" items={products} />
-        </div>
         {/* New products */}
         <div className="flex mt-10 flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
           <ProductList title="New Products" items={products} />
+        </div>
+        <div className="flex mt-10 flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
+          <ProductList title="Featured Products" items={products} />
         </div>
       </div>
     </Container>
