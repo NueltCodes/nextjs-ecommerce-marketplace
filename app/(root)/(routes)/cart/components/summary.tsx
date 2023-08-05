@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 
@@ -15,6 +15,7 @@ interface Quantity {
 
 const Summary = () => {
   const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(false);
   const items = useCart((state) => state.items);
   const removeAll = useCart((state) => state.removeAll);
 
@@ -34,6 +35,7 @@ const Summary = () => {
   }, 0);
 
   const onCheckout = async () => {
+    setLoading(true);
     const qty: Quantity = {}; // Create an empty object to store the quantities
 
     items.forEach((item) => {
@@ -64,7 +66,7 @@ const Summary = () => {
       </div>
       <Button
         onClick={onCheckout}
-        disabled={items.length === 0}
+        disabled={items.length === 0 || loading}
         className="w-full mt-6"
       >
         Checkout
