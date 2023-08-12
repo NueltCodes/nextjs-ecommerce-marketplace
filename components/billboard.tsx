@@ -22,7 +22,7 @@ const Billboard: React.FC<BillboardProps> = ({ data, billBoardImage }) => {
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       <div
-        className="-mx-10 relative aspect-square md:aspect-[2.4/1] overflow-hidden bg-cover transition-opacity "
+        className="relative aspect-square md:aspect-[2.4/1] overflow-hidden bg-cover rounded-md transition-all"
         style={{
           backgroundImage: `url(${currentImage})`,
           backgroundSize: "cover",
