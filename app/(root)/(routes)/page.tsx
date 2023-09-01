@@ -9,6 +9,7 @@ export const revalidate = 0;
 const HomePage = async () => {
   const billboard = await getBillboard("a8073eba-f8fe-4fc2-b2d9-7e937d41b6b4");
   const products = await getProducts({ isFeatured: true });
+  const newProduct = await getProducts({ isFeatured: true });
 
   return (
     <Container>
@@ -16,7 +17,7 @@ const HomePage = async () => {
         <Billboard data={billboard} billBoardImage={billboard.imageUrl} />
         {/* New products */}
         <div className="flex mt-10 flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
-          <ProductList title="New Products" items={products} />
+          <ProductList title="New Products" items={newProduct.slice(0, 15)} />
         </div>
         <div className="flex mt-10 flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
           <ProductList title="Featured Products" items={products} />
