@@ -8,9 +8,16 @@ import { Category, Product } from "@/types";
 import { useState } from "react";
 import Image from "next/image";
 import { useRef } from "react";
-import { CheckIcon, ChevronsUpDownIcon, Plus, Search, X } from "lucide-react";
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronsUpDownIcon,
+  Plus,
+  Search,
+  X,
+} from "lucide-react";
 import { Fragment } from "react";
-import { Combobox, Transition } from "@headlessui/react";
+import { Combobox, Menu, Transition } from "@headlessui/react";
 
 interface MainNavProps {
   data: Category[];
@@ -73,73 +80,75 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
   };
 
   return (
-    <nav className="ml-6 flex gap-x-2 items-center space-x-4 lg:space-x-6 w-full">
-      <Combobox value={selected} onChange={setSelected}>
-        <div className="relative mt-1">
-          <div className="relative w-8 md:w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus:border-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 z-40 focus-visible:ring-offset-teal-300 sm:text-sm">
-            <Combobox.Input
-              className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              displayValue={(route: any) => route.name}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronsUpDownIcon
-                className="h-5 w-5 text-gray-400"
+    <nav className="sm:ml-6 ml-0 flex relative first-letter:gap-x-2 items-center space-x-4 lg:space-x-6 w-full">
+      {/* Display search results */}
+      {searchData.length !== 0 && (
+        <div className="absolute top-12 mt-2 bg-slate-50 shadow-sm z-[9] overflow-y-scroll h-[50vh] w-[100%]">
+          {searchData.map((product) => (
+            <Link href={`/product/${product.id}`} key={product.id}>
+              <div
+                className="flex items-center space-x-2 cursor-pointer mb-2 px-4 hover:bg-slate-200"
+                onClick={() => {
+                  setSearchTerm(""); // Clear the search term
+                  setSearchData([]); // Clear the search results
+                }}
+              >
+                <Image
+                  src={product.images?.[0]?.url}
+                  width={20}
+                  height={50}
+                  alt=""
+                  className="mr-[10px] w-10 h-10 object-contain"
+                />
+                <h1 className="text-sm">{product.name}</h1>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+      <div className="z-[999]">
+        <Menu as="div" className="relative inline-block text-left z-[999]">
+          <div>
+            <Menu.Button className="group inline-flex w-full justify-center rounded-md bg-black bg-opacity-70 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-100 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+              <span className="hidden sm:block">Categories</span>
+              <ChevronDownIcon
+                className="group-hover:translate-y-1 sm:ml-2 ml-0 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
                 aria-hidden="true"
               />
-            </Combobox.Button>
+            </Menu.Button>
           </div>
           <Transition
             as={Fragment}
-            leave="transition ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-            afterLeave={() => setQuery("")}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
           >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-[150px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-40">
-              {filteredCategory?.length === 0 && query !== "" ? (
-                <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
-                  Nothing found.
-                </div>
-              ) : (
-                filteredCategory.map((route) => (
-                  <Combobox.Option
-                    key={route.id}
-                    className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 z-40 ${
-                        active ? "bg-teal-600 text-white" : "text-gray-900"
-                      }`
-                    }
-                    value={route}
-                  >
-                    {({ selected, active }) => (
-                      <>
-                        <span
-                          className={`block truncate ${
-                            selected ? "font-medium" : "font-normal"
-                          }`}
-                          onClick={() => router.push(`/category/${route.id}`)}
-                        >
-                          {route.name}
-                        </span>
-                        {selected ? (
-                          <span
-                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? "text-white" : "text-teal-600"
-                            }`}
-                          >
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                          </span>
-                        ) : null}
-                      </>
-                    )}
-                  </Combobox.Option>
-                ))
-              )}
-            </Combobox.Options>
+            <Menu.Items className="flex flex-col h-[200px] absolute z-50 overflow-y-scroll text-[14px]">
+              {data.map((route) => (
+                /* Use the `active` state to conditionally style the active item. */
+                <Menu.Item key={route.id} as={Fragment}>
+                  {({ active }) => (
+                    <a
+                      href={`/category/${route.id}`}
+                      className={`${
+                        active
+                          ? "bg-blue-500 text-white"
+                          : "bg-white text-black"
+                      } px-2 py-2`}
+                    >
+                      {route.name}
+                    </a>
+                  )}
+                </Menu.Item>
+              ))}
+            </Menu.Items>
           </Transition>
-        </div>
-      </Combobox>
+        </Menu>
+      </div>
+
       <div className="w-[100%] relative flex items-center gap-2">
         <div className="w-[100%] block 570px:hidden">
           <input
@@ -153,11 +162,6 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
           />
 
           {searchTerm.length > 0 ? (
-            <Search
-              size={15}
-              className="absolute right-3 top-3 cursor-pointer"
-            />
-          ) : (
             <X
               size={15}
               className="absolute right-3 top-3 cursor-pointer"
@@ -165,6 +169,11 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
                 setSearchTerm(""); // Clear the search term
                 setSearchData([]); // Clear the search results
               }}
+            />
+          ) : (
+            <Search
+              size={15}
+              className="absolute right-3 top-3 cursor-pointer"
             />
           )}
         </div>
@@ -197,32 +206,6 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
             />
           )}
         </div>
-
-        {/* Display search results */}
-        {searchData.length !== 0 && (
-          <div className="absolute top-12 mt-2 bg-slate-50 shadow-sm z-[9] overflow-y-scroll w-[100%]">
-            {searchData.map((product) => (
-              <Link href={`/product/${product.id}`} key={product.id}>
-                <div
-                  className="flex items-center space-x-2 cursor-pointer mb-2 px-4 hover:bg-slate-200"
-                  onClick={() => {
-                    setSearchTerm(""); // Clear the search term
-                    setSearchData([]); // Clear the search results
-                  }}
-                >
-                  <Image
-                    src={product.images?.[0]?.url}
-                    width={20}
-                    height={50}
-                    alt=""
-                    className="mr-[10px] w-10 h-10 object-contain"
-                  />
-                  <h1 className="text-sm">{product.name}</h1>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
       </div>
     </nav>
   );
