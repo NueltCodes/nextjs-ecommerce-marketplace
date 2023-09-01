@@ -13,7 +13,7 @@ const Billboard: React.FC<BillboardProps> = ({ data, billBoardImage }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setImageIndex((prevIndex) => (prevIndex + 1) % billBoardImage.length);
-    }, 10000);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, [billBoardImage]);
